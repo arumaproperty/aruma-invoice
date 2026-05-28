@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+
+# env files — NEVER commit these, they contain your private keys
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+
+# debug logs
+npm-debug.log*
