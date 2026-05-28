@@ -440,7 +440,9 @@ async function sendInvoice() {
   const btn = document.getElementById("btnSend");
   btn.disabled = true; btn.textContent = "Sending…";
   try {
-    await fetch("/api/invoices/" + _savedId + "/send", { method:"POST" });
+    const res = await fetch("/api/invoices/" + _savedId + "/send", { method:"POST" });
+    const data = await res.json();
+    if (!res.ok) { showStatus(data.error || "Send failed.", false); return; }
     showStatus("Sent to " + email + ".", true);
   } catch(e) {
     showStatus("Send failed.", false);

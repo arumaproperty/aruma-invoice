@@ -7,7 +7,7 @@ export async function sendInvoiceEmail(invoice: Invoice): Promise<void> {
   const html = buildEmailHTML(invoice);
 
   await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL ?? 'Aruma Properties <onboarding@resend.dev>',
+    from: process.env.RESEND_FROM_EMAIL ?? 'Aruma Properties <invoice@arumaproperty.com>',
     to: invoice.billEmail,
     subject: `Invoice ${invoice.invoiceNumber} — Aruma Properties`,
     html,
