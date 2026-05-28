@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createHash } from 'crypto';
 
-export function middleware(req: NextRequest) {
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Allow login page and login API through
@@ -17,7 +24,7 @@ export function middleware(req: NextRequest) {
   // Check auth cookie
   const cookie = req.cookies.get('aruma_auth')?.value;
   const password = process.env.APP_PASSWORD ?? '';
-  const expected = createHash('sha256').update(password).digest('hex');
+  const expected = await hashPassword(password);
 
   if (cookie !== expected) {
     return NextResponse.redirect(new URL('/login', req.url));
