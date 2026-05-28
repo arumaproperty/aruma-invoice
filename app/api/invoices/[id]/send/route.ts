@@ -12,8 +12,9 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
     await sendInvoiceEmail(invoice);
     await updateInvoice(params.id, { status: 'sent' });
     return NextResponse.json({ ok: true });
-  } catch (err) {
-    console.error('POST /api/invoices/[id]/send:', err);
-    return NextResponse.json({ error: 'Failed to send invoice' }, { status: 500 });
+  } catch (err: any) {
+    const msg = err?.message ?? String(err);
+    console.error('POST /api/invoices/[id]/send:', msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
