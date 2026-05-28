@@ -17,7 +17,13 @@ export async function middleware(req: NextRequest) {
   }
 
   // Allow static assets through
-  if (pathname.startsWith('/_next') || pathname === '/favicon.ico' || pathname === '/logo.png') {
+  if (
+    pathname.startsWith('/_next') ||
+    pathname === '/favicon.ico' ||
+    pathname === '/logo.png' ||
+    pathname === '/icon.svg' ||
+    pathname === '/icon.png'
+  ) {
     return NextResponse.next();
   }
 
